@@ -8,6 +8,13 @@ function amg_talk_comment_count ($count, $post_id) {
     try {
         $mng = new MongoDB\Driver\Manager("mongodb://localhost");
         $url = get_permalink($post_id);
+        $url = preg_replace_callback(
+            "/%[a-f0-9]{2}/",
+            function ($matches) {
+                return strtoupper($matches[0]);
+            },
+            $url
+        );
         $assetq = new MongoDB\Driver\Query(["url"=>$url], ["limit" => 1, "projection" => ["id" => ""]]);
         $assets = $mng->executeQuery("talk.assets", $assetq)->toArray();
         // error handle
