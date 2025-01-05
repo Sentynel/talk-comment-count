@@ -27,6 +27,9 @@ function amg_talk_comment_count ($count, $post_id) {
         );
         $assetq = new MongoDB\Driver\Query(["url"=>$url], ["limit" => 1, "projection" => ["commentCounts.status" => 1]]);
         $assets = $mng->executeQuery("coral.stories", $assetq)->toArray();
+        if (count($assets) === 0) {
+            return 0;
+        };
         $newcount = $assets[0]->commentCounts->status->APPROVED + $assets[0]->commentCounts->status->NONE;
         wp_cache_set($key, $newcount, '', 300);
         return $newcount;
