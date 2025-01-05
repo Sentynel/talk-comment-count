@@ -15,7 +15,7 @@ function amg_talk_comment_count ($count, $post_id) {
     try {
         if ($mng === false) {
             // cache Mongo connection
-            $mng = new MongoDB\Driver\Manager("mongodb://localhost");
+            $mng = new MongoDB\Driver\Manager("mongodb://%2frun%2fmongodb%2fmongodb-27017.sock");
         }
         $url = get_permalink($post_id);
         $url = preg_replace_callback(
